@@ -2,10 +2,12 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoute from './Routes/user.route.js';
+import authRoute from './Routes/auth.route.js';
 
 dotenv.config();
 
 const app = express();
+app.use(express.json());
 
 app.listen(4000, ()=>{
     console.log("Your Server is Running on Port 4000.")
@@ -23,3 +25,6 @@ mongoose.connect(process.env.MONGODB_URL)
 // });
 
 app.use('/api/user', userRoute);
+
+//SignUp Endpoint
+app.use('/api/auth', authRoute);
