@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import userRoute from './Routes/user.route.js';
 
 dotenv.config();
 
@@ -16,5 +17,9 @@ mongoose.connect(process.env.MONGODB_URL)
 }).catch((err)=>{
     console.error(err)
 });
+// Create Test API 
+// app.get('/test', (req,res)=>{
+//     res.send( "Hello , Succesful API.")
+// });
 
-// console.log("MongoDB URL:", process.env.MONGODB_URL);
+app.use('/api/user', userRoute);
