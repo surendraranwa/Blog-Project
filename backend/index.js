@@ -28,3 +28,15 @@ app.use('/api/user', userRoute);
 
 //SignUp Endpoint
 app.use('/api/auth', authRoute);
+
+//Add a middleware to for error message 
+
+app.use((err, req, res, next)=>{
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message
+    });
+});
