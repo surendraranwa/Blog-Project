@@ -1,17 +1,26 @@
-import { Button, Label, TextInput } from "flowbite-react"
+import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link , useNavigate} from "react-router-dom"
 
 function SignUp() {
   const [formData, setFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const handleChange = (e) =>{
-    setFormData({...formData, [e.target.id]:e.target.value})
+    setFormData({...formData, [e.target.id]:e.target.value.trim()})
     console.log(formData);
   }
 
   const handleSubmit = async (e) =>{
       e.preventDefault();
+      if(!formData.username || !formData.email || !formData.password){
+        return setErrorMessage("Please fill out all fields.")
+      }
      try {
+      setErrorMessage(null);
+      setLoading(true);
       const res = await fetch("/api/auth/signup",{
         method: "POST",
         headers:{
@@ -19,22 +28,20 @@ function SignUp() {
         },
         body : JSON.stringify(formData),
       });
-           console.log(res)
-
       const data = await res.json();
-      console.log(data);
-      setFormData("");
+
+      if(data.success === false){
+        return setErrorMessage(data.message)
+      }
+      if(res.ok){
+        navigate('/signin');
+      }
+      setLoading(false);
      } catch (error) {
-       console.log(error)
+        setErrorMessage(error.message);
+        setLoading(false);
      }
     }
-  //     try {
-       
-  //       // const data = await res.json();
-  //     } catch (error) {
-        
-  //     }
-  // }
   return (
     <>
     <div className="min-h-screen mt-20">
@@ -59,11 +66,23 @@ function SignUp() {
               <Label value="Your Password"/>
               <TextInput type="password" placeholder="Enter Password" id="password" onChange={handleChange}/>
             </div>
-            <Button type="submit">Sign Up</Button>
+            <Button type="submit" disabled={loading}>
+              {
+                loading ? <>
+                <Spinner/>
+                <span className="pl-5 text-xl">Loading...</span>
+                </> : 'Sign Up'
+              }</Button>
           </form>
           <div className="flex mt-4 gap-2">
             <span>Have An Account?</span><Link className="text-blue-700" to="/signin">Login</Link>
           </div>
+          {
+            errorMessage && 
+            <Alert className="mt-5 text-red-600 bg-slate-100 text-md font-bold">
+              {errorMessage}
+            </Alert>
+          }
         </div>
       </div>
     </div>
