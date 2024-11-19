@@ -40,10 +40,10 @@ function FooterComponent() {
       <div className="w-full border-t-2 sm:flex sm:justify-between sm:mx-10">
           <div className="text-xl my-4 font-semibold"><span>&copy;</span> {new Date().getFullYear()} Surendra Ranwa</div>
           <div className="flex gap-5 mt-5 text-3xl">
-            <a><BsFacebook /></a>
-            <a><BsGithub /></a>
-            <a><BsInstagram /></a>
-            <a><BsTwitter /></a>
+            <a className="cursor-pointer"><BsFacebook /></a>
+            <a className="cursor-pointer"><BsGithub /></a>
+            <a className="cursor-pointer"><BsInstagram /></a>
+            <a className="cursor-pointer"><BsTwitter /></a>
           </div>
         </div>
    </Footer>
