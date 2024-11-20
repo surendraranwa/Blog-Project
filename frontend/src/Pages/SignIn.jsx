@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Link , useNavigate} from "react-router-dom";
 import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import GoogleOAuth from "../Components/GoogleOAuth";
 
 
 function SignIn() {
@@ -74,6 +75,7 @@ function SignIn() {
                 <span className="pl-5 text-xl">Loading...</span>
                 </> : 'Sign In'
               }</Button>
+              <GoogleOAuth/>
           </form>
           <div className="flex mt-4 gap-2">
             <span>Dont Have an Account?</span><Link className="text-blue-700" to="/signup">Sign Up</Link>
