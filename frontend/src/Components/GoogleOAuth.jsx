@@ -15,19 +15,20 @@ function GoogleOAuth() {
        provider.setCustomParameters({prompt: 'select_account'});
        try {
         const resultsFromGoogle = await signInWithPopup(auth, provider);
+
         const res = await fetch("/api/auth/google", {
             method : "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                usename : resultsFromGoogle.displayName,
-                email: resultsFromGoogle.email,
-                photoURL : resultsFromGoogle.photoURL
+                name : resultsFromGoogle.user.displayName,
+                email: resultsFromGoogle.user.email,
+                photoURL : resultsFromGoogle.user.photoURL
             })
         });
-        const data = res.json();
-        if(res.Ok){
+        const data = await res.json();
+        if(res.ok){
             dispatch(signInSuccess(data));
             navigate("/");
         }
