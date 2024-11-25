@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     },
     photoUrl:{
         type: String,
-        default: "https://lh3.googleusercontent.com/a/ACg8ocJCctaQedLWlHH8_zWqreI9DRRjWNqML-9dGH2tJb0ScXs_tYJQ=s96-c",
+        default: "",
     }
     
 },{timestamps:true});
